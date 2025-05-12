@@ -97,3 +97,11 @@ struct HutListView: View {
             .sorted { $0.name < $1.name }
     }
 }
+
+struct HutListView_Preview: PreviewProvider {
+    static var previews: some View {
+        HutListView()
+            .environmentObject(User(accentColor: .orange, mapType: .standard))
+            .environmentObject(HutsViewModel())
+    }
+}

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import MapKit
+import Supabase
 
 enum AccentColor: String, CaseIterable, Codable {
     case orange
@@ -57,93 +58,56 @@ enum MapType: String, CaseIterable, Codable {
     }
 }
 class User: ObservableObject {
+    @Published var id: String?
     @Published var completedHuts: [Hut]
     @Published var savedHuts: [Hut]
-    @Published var accentColor: AccentColor {
-        didSet {
-            saveAccentColor()
-        }
-    }
-    @Published var mapType: MapType {
-        didSet {
-            saveMapType()
-        }
-    }
-
-    init(completedHuts: [Hut] = [],
+    @Published var accentColor: AccentColor
+    @Published var mapType: MapType
+    @Published var email: String?
+    @Published var username: String?
+    
+    init(id: String? = nil, completedHuts: [Hut] = [],
          savedHuts: [Hut] = [],
          accentColor: AccentColor = .orange,
          mapType: MapType = .standard) {
+        self.id = id
         self.completedHuts = completedHuts
         self.savedHuts = savedHuts
         self.accentColor = accentColor
         self.mapType = mapType
-        loadData()
-        loadAccentColor()
-        loadMapType()
     }
     
-    private func saveAccentColor() {
-        UserDefaults.standard.set(accentColor.rawValue, forKey: "accentColor")
-    }
-
-    private func loadAccentColor() {
-        if let rawValue = UserDefaults.standard.string(forKey: "accentColor"),
-           let loadedColor = AccentColor(rawValue: rawValue) {
-            self.accentColor = loadedColor
-        }
-    }
+    // Supabase client
+    var client = SupabaseManager.shared.client
     
-    private func saveMapType() {
-        UserDefaults.standard.set(mapType.rawValue, forKey: "preferredMapType")
-        }
+    // MARK: - Username
+    struct Profile: Decodable {
+        let username: String
+    }
 
-        private func loadMapType() {
-            if let rawValue = UserDefaults.standard.string(forKey: "preferredMapType"),
-               let savedMapType = MapType(rawValue: rawValue) {
-                self.mapType = savedMapType
-            }
-        }
-
-    func saveData() {
-        let encoder = JSONEncoder()
+    func getUsername() async {
         do {
-            // Save huts
-            let encodedCompletedHuts = try encoder.encode(completedHuts)
-            let encodedSavedHuts = try encoder.encode(savedHuts)
-            UserDefaults.standard.set(encodedCompletedHuts, forKey: "completedHuts")
-            UserDefaults.standard.set(encodedSavedHuts, forKey: "savedHuts")
+            let response = try await client
+                .from("profiles")
+                .select("username")
+                .eq("id", value: self.id)
+                .single()
+                .execute()
 
-            // Save accent color and preferred map type
-            UserDefaults.standard.set(accentColor.rawValue, forKey: "accentColor")
-            UserDefaults.standard.set(mapType.rawValue, forKey: "preferredMapType")
+            let raw = response.data
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let data = try decoder.decode(Profile.self, from: raw)
+            self.username = data.username
+            
         } catch {
-            print("Failed to encode user data: \(error)")
+            print("Error getting username: \(error)")
         }
     }
-
-    func loadData() {
-        let decoder = JSONDecoder()
-        if let savedCompletedHuts = UserDefaults.standard.object(forKey: "completedHuts") as? Data,
-           let savedSavedHuts = UserDefaults.standard.object(forKey: "savedHuts") as? Data {
-            do {
-                completedHuts = try decoder.decode([Hut].self, from: savedCompletedHuts)
-                savedHuts = try decoder.decode([Hut].self, from: savedSavedHuts)
-            } catch {
-                print("Failed to decode huts: \(error)")
-            }
-        }
-
-        // Load accent color
-        if let accentColorRawValue = UserDefaults.standard.string(forKey: "accentColor"),
-           let savedAccentColor = AccentColor(rawValue: accentColorRawValue) {
-            accentColor = savedAccentColor
-        }
-
-        // Load preferred map type
-        if let mapTypeRawValue = UserDefaults.standard.string(forKey: "preferredMapType"),
-           let savedMapType = MapType(rawValue: mapTypeRawValue) {
-            mapType = savedMapType
-        }
+    
+    //PLACEHOLDER
+    func saveData() {
+        print("SAVING DATA")
     }
+    
 }

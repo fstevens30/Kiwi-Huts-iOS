@@ -1,26 +1,16 @@
-//
-//  ProfileView.swift
-//  Kiwi Huts
-//
-//  Created by Flynn Stevens on 13/12/2024.
-//
-
-import Foundation
 import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var user: User
     
     
+    
     var body: some View {
         NavigationView {
             VStack {
                 VStack {
-                    HStack {
-                        Image(systemName: "person.circle")
-                            .resizable()
-                            .frame(width:50, height:50)
-                        Text("Guest User")
+                    VStack {
+                        Text(user.username ?? "Username")
                             .font(.headline)
                     }
                     Divider()
@@ -50,6 +40,16 @@ struct ProfileView: View {
                 Spacer()
             }
             .navigationTitle("Profile")
+            .task {
+                await user.getUsername()
+            }
         }
+    }
+}
+
+struct ProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileView()
+            .environmentObject(User(completedHuts: [], accentColor: .orange, mapType: .standard))
     }
 }

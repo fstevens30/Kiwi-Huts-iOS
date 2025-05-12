@@ -1,10 +1,3 @@
-//
-//  SettingsView.swift
-//  Kiwi Huts
-//
-//  Created by Flynn Stevens on 13/12/2024.
-//
-
 import Foundation
 import SwiftUI
 
@@ -50,6 +43,19 @@ struct SettingsView: View {
                 
                 Spacer()
                 
+                //Logout Button
+                Button(action:{} ) {
+                    Text("Logout")
+                        .foregroundColor(.red)
+                        .font(.headline)
+                        .padding()
+                }
+                .buttonStyle(PlainButtonStyle())
+                .background(Color.red.opacity(0.2))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                
+                Spacer()
+                
                 if let lastUpdated = viewModel.lastUpdated {
                     Text("Data last updated: \(formatDate(lastUpdated))")
                         .font(.footnote)
@@ -64,5 +70,13 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
+    }
+}
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView()
+            .environmentObject(User(accentColor: .yellow, mapType: .standard))
+            .environmentObject(HutsViewModel())
     }
 }

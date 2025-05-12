@@ -10,7 +10,6 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var user: User
     @EnvironmentObject var viewModel: HutsViewModel
-    @EnvironmentObject var networkMonitor: NetworkMonitor
     @State private var selectedTab = UserDefaults.standard.integer(forKey: "lastTab") // For state restoration
 
     var body: some View {
@@ -49,7 +48,9 @@ struct MainTabView: View {
                 }
                 .tag(4)
                 .environmentObject(viewModel)
+                .environmentObject(user)
         }
+        .navigationBarBackButtonHidden(true)
         .tint(Color(user.accentColor.assetName))
         .onAppear {
             selectedTab = UserDefaults.standard.integer(forKey: "lastTab") // Restore last selected tab
@@ -57,14 +58,24 @@ struct MainTabView: View {
         .onChange(of: selectedTab) { _ in
             saveTab()
         }
+        /*
         .alert("Limited Functionality", isPresented: .constant(!networkMonitor.isConnected)) {
             Button("OK", role: .cancel) { }
         } message: {
             Text("You are not connected to the internet. Some functionality will be limited.")
         }
+         */
     }
 
     private func saveTab() {
         UserDefaults.standard.set(selectedTab, forKey: "lastTab")
+    }
+}
+
+struct MainTabView_Preview: PreviewProvider {
+    static var previews: some View {
+        MainTabView()
+            .environmentObject(User(accentColor: .green, mapType: .hybrid))
+            .environmentObject(HutsViewModel())
     }
 }

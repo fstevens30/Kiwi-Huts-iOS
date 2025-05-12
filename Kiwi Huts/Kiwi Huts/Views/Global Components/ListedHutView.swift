@@ -67,7 +67,6 @@ struct ListedHutView: View {
             if user.completedHuts.contains(where: { $0.id == hut.id }) {
                 Button {
                     user.completedHuts.removeAll(where: { $0.id == hut.id })
-                    user.saveData()
                     showToast(message: "\(hut.name) marked as incomplete")
                 } label: {
                     Label("Uncomplete", systemImage: "xmark.circle.fill")
@@ -76,7 +75,6 @@ struct ListedHutView: View {
             } else {
                 Button {
                     user.completedHuts.append(hut)
-                    user.saveData()
                     showToast(message: "\(hut.name) marked as complete")
                 } label: {
                     Label("Complete", systemImage: "checkmark.circle.fill")
@@ -87,7 +85,6 @@ struct ListedHutView: View {
             if user.savedHuts.contains(where: { $0.id == hut.id }) {
                 Button {
                     user.savedHuts.removeAll(where: { $0.id == hut.id })
-                    user.saveData()
                     showToast(message: "\(hut.name) Unsaved")
                 } label: {
                     Label("Unsave", systemImage: "star.slash.fill")
@@ -96,7 +93,6 @@ struct ListedHutView: View {
             } else {
                 Button {
                     user.savedHuts.append(hut)
-                    user.saveData()
                     showToast(message: "\(hut.name) saved")
                 } label: {
                     Label("Save", systemImage: "star.circle.fill")

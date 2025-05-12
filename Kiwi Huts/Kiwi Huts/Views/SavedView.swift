@@ -41,3 +41,10 @@ struct SavedView: View {
         }
     }
 }
+
+struct SavedView_Preview: PreviewProvider {
+    static var previews: some View {
+        SavedView()
+            .environmentObject(User(accentColor: .orange, mapType: .standard))
+    }
+}

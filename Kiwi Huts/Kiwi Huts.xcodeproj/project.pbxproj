@@ -38,6 +38,11 @@
 		3AAEB8412BDEEC5800745191 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAEB8402BDEEC5800745191 /* CircularProgressView.swift */; };
 		3AAEB8432BDEED4B00745191 /* RegionProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAEB8422BDEED4B00745191 /* RegionProgressView.swift */; };
 		3AC8AB0B2BB5461500D6FE3D /* HutInfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC8AB0A2BB5461500D6FE3D /* HutInfoCard.swift */; };
+		3AD053252D9CE578004349A7 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD053242D9CE578004349A7 /* AuthView.swift */; };
+		3AD053272D9CE5C5004349A7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD053262D9CE5C5004349A7 /* LoginView.swift */; };
+		3AD053292D9CE5D3004349A7 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD053282D9CE5D3004349A7 /* SignUpView.swift */; };
+		3AD0532C2D9CE7EF004349A7 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 3AD0532B2D9CE7EF004349A7 /* Auth */; };
+		3AD0532F2D9CE851004349A7 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3AD0532E2D9CE851004349A7 /* Supabase */; };
 		3AEC85E12CF6BC3D00568519 /* SupabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC85E02CF6BC3D00568519 /* SupabaseClient.swift */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +93,9 @@
 		3AAEB8402BDEEC5800745191 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		3AAEB8422BDEED4B00745191 /* RegionProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionProgressView.swift; sourceTree = "<group>"; };
 		3AC8AB0A2BB5461500D6FE3D /* HutInfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HutInfoCard.swift; sourceTree = "<group>"; };
+		3AD053242D9CE578004349A7 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		3AD053262D9CE5C5004349A7 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		3AD053282D9CE5D3004349A7 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		3AEC85E02CF6BC3D00568519 /* SupabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +111,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AD0532F2D9CE851004349A7 /* Supabase in Frameworks */,
+				3AD0532C2D9CE7EF004349A7 /* Auth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +144,7 @@
 				3A0B571D2C1BB50F00487BB1 /* Kiwi HutsTests */,
 				3A0B57142C1BB0B600487BB1 /* Kiwi Huts.app */,
 				3A0B571C2C1BB50F00487BB1 /* Kiwi HutsTests.xctest */,
+				3AD0532D2D9CE851004349A7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,6 +154,7 @@
 				3A6648852C11358600FA0F23 /* Kiwi-Huts-Info.plist */,
 				3A4C4B862BA7AF600064375A /* Kiwi Huts.entitlements */,
 				3A1C99F72B97D00700C49BFF /* Kiwi_HutsApp.swift */,
+				3AD053232D9CE547004349A7 /* Auth Views */,
 				3A385C0B2B991CA9005036A5 /* Models */,
 				3A385C0A2B991C91005036A5 /* Views */,
 				3A1C99FB2B97D00800C49BFF /* Assets.xcassets */,
@@ -248,6 +260,23 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		3AD053232D9CE547004349A7 /* Auth Views */ = {
+			isa = PBXGroup;
+			children = (
+				3AD053242D9CE578004349A7 /* AuthView.swift */,
+				3AD053262D9CE5C5004349A7 /* LoginView.swift */,
+				3AD053282D9CE5D3004349A7 /* SignUpView.swift */,
+			);
+			path = "Auth Views";
+			sourceTree = "<group>";
+		};
+		3AD0532D2D9CE851004349A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -315,6 +344,7 @@
 			);
 			mainGroup = 3A1C99EB2B97D00700C49BFF;
 			packageReferences = (
+				3AD0532A2D9CE7EF004349A7 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			productRefGroup = 3A1C99EB2B97D00700C49BFF;
 			projectDirPath = "";
@@ -380,10 +410,13 @@
 				3A512C832CFE4A230085FF38 /* HutMarker.swift in Sources */,
 				3A6648792C0E95E400FA0F23 /* Toast.swift in Sources */,
 				3A512C772CF7A4CE0085FF38 /* AppVersionProvider.swift in Sources */,
+				3AD053272D9CE5C5004349A7 /* LoginView.swift in Sources */,
 				3A9091F72D0BADBC00670D4D /* SettingsView.swift in Sources */,
 				3A4B4BEE2BDB43B80071B03C /* HutInfoCardContainer.swift in Sources */,
 				3A385C142B991D1C005036A5 /* SavedView.swift in Sources */,
 				3A1C9A0E2B97D61700C49BFF /* Hut.swift in Sources */,
+				3AD053252D9CE578004349A7 /* AuthView.swift in Sources */,
+				3AD053292D9CE5D3004349A7 /* SignUpView.swift in Sources */,
 				3A4C4B882BA7C2300064375A /* User.swift in Sources */,
 				3A512C7D2CF7D81C0085FF38 /* MapView.swift in Sources */,
 				3AC8AB0B2BB5461500D6FE3D /* HutInfoCard.swift in Sources */,
@@ -601,7 +634,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flynn-stevens.KiwiHuts";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -646,7 +679,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flynn-stevens.KiwiHuts";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -691,6 +724,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3AD0532A2D9CE7EF004349A7 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase-community/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3AD0532B2D9CE7EF004349A7 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AD0532A2D9CE7EF004349A7 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		3AD0532E2D9CE851004349A7 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AD0532A2D9CE7EF004349A7 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3A1C99EC2B97D00700C49BFF /* Project object */;
 }
