@@ -77,7 +77,7 @@ struct SignUpView: View {
                 }
             
             NavigationLink(
-                destination: MainTabView()
+                destination: MainTabView(isAuthenticated: $isAuthenticated)
                     .environmentObject(user)
                     .environmentObject(HutsViewModel()),
                 isActive: $navigateToProfile
@@ -117,7 +117,7 @@ struct SignUpView: View {
 
                 let authUser = loginResponse.user
                 user.email = authUser.email ?? email
-                user.id = authUser.id.uuidString
+                user.id = authUser.id
                 UserDefaults.standard.set(true, forKey: "isLoggedIn")
                 isAuthenticated = true
                 navigateToProfile = true

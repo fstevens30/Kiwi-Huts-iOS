@@ -11,6 +11,7 @@ struct MainTabView: View {
     @EnvironmentObject var user: User
     @EnvironmentObject var viewModel: HutsViewModel
     @State private var selectedTab = UserDefaults.standard.integer(forKey: "lastTab") // For state restoration
+    @Binding var isAuthenticated: Bool
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -42,7 +43,7 @@ struct MainTabView: View {
                 .tag(3)
                 .environmentObject(viewModel)
             
-            SettingsView()
+            SettingsView(isAuthenticated: $isAuthenticated)
                 .tabItem {
                     Label("Settings", systemImage: "gear.circle.fill")
                 }
@@ -74,7 +75,7 @@ struct MainTabView: View {
 
 struct MainTabView_Preview: PreviewProvider {
     static var previews: some View {
-        MainTabView()
+        MainTabView(isAuthenticated: .constant(true))
             .environmentObject(User(accentColor: .green, mapType: .hybrid))
             .environmentObject(HutsViewModel())
     }

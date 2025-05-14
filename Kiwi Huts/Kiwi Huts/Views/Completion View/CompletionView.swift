@@ -14,7 +14,7 @@ struct CompletionView: View {
     
     // Group huts by region
     var hutsByRegion: [String: [Hut]] {
-        Dictionary(grouping: user.completedHuts, by: { $0.region })
+        Dictionary(grouping: viewModel.hutsList, by: { $0.region })
     }
     
     // Calculate progress for each region
@@ -76,7 +76,12 @@ struct CompletionView: View {
                 }
             }
             .navigationTitle("Completion")
-            .navigationBarTitleDisplayMode(.automatic)
+            .tint(Color(user.accentColor.assetName))
+        }
+        .onAppear {
+            Task {
+                await user.getCompletedHuts()
+            }
         }
     }
 }

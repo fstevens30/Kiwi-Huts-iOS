@@ -58,7 +58,7 @@ enum MapType: String, CaseIterable, Codable {
     }
 }
 class User: ObservableObject {
-    @Published var id: String?
+    @Published var id: UUID?
     @Published var completedHuts: [Hut]
     @Published var savedHuts: [Hut]
     @Published var accentColor: AccentColor
@@ -70,7 +70,7 @@ class User: ObservableObject {
          savedHuts: [Hut] = [],
          accentColor: AccentColor = .orange,
          mapType: MapType = .standard) {
-        self.id = id
+        self.id = UUID()
         self.completedHuts = completedHuts
         self.savedHuts = savedHuts
         self.accentColor = accentColor
@@ -111,13 +111,19 @@ class User: ObservableObject {
                 .from("profiles")
                 .select("completedHuts")
                 .eq("id", value: self.id)
+                .single()
                 .execute()
+            
+            struct CompletedHutsWrapper: Decodable {
+                let completedHuts: [Hut]
+            }
             
             let raw = response.data
             let decoder = JSONDecoder()
-            let data = try decoder.decode([Hut].self, from: raw)
-            self.completedHuts = data
-            
+            let wrapper = try decoder.decode(CompletedHutsWrapper.self, from: raw)
+            DispatchQueue.main.async {
+                self.completedHuts = wrapper.completedHuts
+            }
         } catch {
             print("Error getting completed huts: \(error)")
         }
@@ -129,22 +135,61 @@ class User: ObservableObject {
                 .from("profiles")
                 .select("savedHuts")
                 .eq("id", value: self.id)
+                .single()
                 .execute()
-            
+
+            struct SavedHutsWrapper: Decodable {
+                let savedHuts: [Hut]
+            }
+
             let raw = response.data
             let decoder = JSONDecoder()
-            let data = try decoder.decode([Hut].self, from: raw)
-            self.completedHuts = data
+            let wrapper = try decoder.decode(SavedHutsWrapper.self, from: raw)
+            DispatchQueue.main.async {
+                self.savedHuts = wrapper.savedHuts
+            }
         } catch {
             print("Error getting saved huts: \(error)")
         }
     }
     
-    
-    
-    //PLACEHOLDER
-    func saveData() {
-        print("SAVING DATA")
+    struct UpdateHuts: Encodable {
+        var completedHuts: [Hut]
+        var savedHuts: [Hut]
     }
     
+    func updateHuts() async {
+        guard let id = self.id else { return }
+
+        do {
+            _ = try await client
+                .from("profiles")
+                .update(
+                    UpdateHuts(completedHuts: self.completedHuts, savedHuts: self.savedHuts))
+                .eq("id", value: id)
+                .execute()
+
+            print("Successfully updated huts")
+
+        } catch {
+            print("Error updating huts: \(error)")
+        }
+    }
+    
+    
+    func updateAccentColor() async {
+        do {
+            _ = try await client
+                .from("profiles")
+                .update(["accentColor": self.accentColor])
+                .eq("id", value: self.id!)
+                .execute()
+            
+            print("Successfully updated accent color")
+            
+        } catch {
+            print("Error updating accent color: \(error)")
+        }
+        
+    }
 }

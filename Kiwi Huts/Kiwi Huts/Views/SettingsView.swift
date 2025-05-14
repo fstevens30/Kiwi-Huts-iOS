@@ -1,9 +1,11 @@
 import Foundation
 import SwiftUI
+import Supabase
 
 struct SettingsView: View {
     @EnvironmentObject var user: User
     @EnvironmentObject var viewModel: HutsViewModel
+    @Binding var isAuthenticated: Bool
     
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
@@ -38,13 +40,29 @@ struct SettingsView: View {
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
+                        .onChange(of: user.accentColor){
+                            Task {
+                                await user.updateAccentColor()
+                            }
+                        }
                     }
                 }
                 
                 Spacer()
                 
-                //Logout Button
-                Button(action:{} ) {
+                Button {
+                    Task {
+                        do {
+                            try await SupabaseManager.shared.client.auth.signOut()
+                            DispatchQueue.main.async {
+                                isAuthenticated = false
+                            }
+                        } catch {
+                            print("Sign out failed: \(error)")
+                        }
+                    }
+                }
+                label: {
                     Text("Logout")
                         .foregroundColor(.red)
                         .font(.headline)
@@ -75,7 +93,7 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(isAuthenticated: .constant(true))
             .environmentObject(User(accentColor: .yellow, mapType: .standard))
             .environmentObject(HutsViewModel())
     }

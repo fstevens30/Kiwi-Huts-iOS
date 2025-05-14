@@ -2,7 +2,7 @@ import SwiftUI
 import MapKit
 
 struct Hut: Identifiable, Codable {
-    let id: Int // Use "asset_id" as the unique identifier
+    let id: Int64 // Use "asset_id" as the unique identifier
     let name: String
     let status: String
     let region: String

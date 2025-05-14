@@ -22,34 +22,42 @@ struct ToolbarButtons: View {
     
     var body: some View {
         HStack {
-            Button(action: toggleSaved) {
+            Button {
+                Task {
+                    await toggleSaved()
+                }
+            } label: {
                 Image(systemName: isHutSaved() ? "star.circle.fill" : "star.circle")
                     .tint(Color(user.accentColor.assetName))
             }
             
-            Button(action: toggleCompleted) {
+            Button {
+                Task {
+                    await toggleCompleted()
+                }
+            } label: {
                 Image(systemName: isHutComplete() ? "checkmark.circle.fill" : "checkmark.circle")
                     .tint(Color(user.accentColor.assetName))
             }
         }
     }
     
-    private func toggleSaved() {
+    private func toggleSaved() async {
         if isHutSaved(), let index = user.savedHuts.firstIndex(where: { $0.id == hut.id }) {
             user.savedHuts.remove(at: index)
         } else {
             user.savedHuts.append(hut)
         }
-        user.saveData()
+        await user.updateHuts()
     }
     
-    private func toggleCompleted() {
+    private func toggleCompleted() async {
         if isHutComplete(), let index = user.completedHuts.firstIndex(where: { $0.id == hut.id }) {
             user.completedHuts.remove(at: index)
         } else {
             user.completedHuts.append(hut)
         }
-        user.saveData()
+        await user.updateHuts()
     }
 }
 

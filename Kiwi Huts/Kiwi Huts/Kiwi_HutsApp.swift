@@ -2,6 +2,7 @@ import SwiftUI
 import PostgREST
 import Combine
 import CoreLocation
+import Supabase
 
 // Define your tab options
 enum Tab: String, Identifiable, CaseIterable {
@@ -44,7 +45,7 @@ struct Kiwi_HutsApp: App {
     private let locationManager = CLLocationManager()
     
     init() {
-        checkLoginStatus()
+
         requestLocationPermissions()
     }
     
@@ -52,13 +53,18 @@ struct Kiwi_HutsApp: App {
         WindowGroup {
             NavigationStack {
                 if isAuthenticated {
-                    MainTabView()
+                    MainTabView(isAuthenticated: $isAuthenticated)
                         .environmentObject(user)
                         .environmentObject(viewModel)
                         .tint(Color(user.accentColor.assetName))
                 } else {
                     AuthView(isAuthenticated: $isAuthenticated)
                         .tint(.accentColorOrange)
+                }
+            }
+            .onAppear {
+                Task {
+                    await checkLoginStatus()
                 }
             }
         }
@@ -68,13 +74,14 @@ struct Kiwi_HutsApp: App {
         locationManager.requestWhenInUseAuthorization()
     }
     
-    private func checkLoginStatus() {
-        // If the user has previously logged in, fetch their account and navigate straight to the home page.
-        if UserDefaults.standard.bool(forKey: "isLoggedIn") {
+    private func checkLoginStatus() async {
+        do {
+            let session = try await SupabaseManager.shared.client.auth.session
+            self.user.id = session.user.id
             isAuthenticated = true
-        }
-        else {
+        } catch {
             isAuthenticated = false
+            print("No active session or failed to retrieve session: \(error)")
         }
     }
 }

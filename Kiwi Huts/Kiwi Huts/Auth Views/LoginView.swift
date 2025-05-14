@@ -63,7 +63,7 @@ struct LoginView: View {
                 
                 
                 NavigationLink(
-                    destination: MainTabView()
+                    destination: MainTabView(isAuthenticated: $isAuthenticated)
                         .environmentObject(user)
                         .environmentObject(HutsViewModel()),
                     isActive: $navigateToProfile
@@ -92,9 +92,7 @@ struct LoginView: View {
                 
                 let authUser = authResponse.user
                 user.email = authUser.email ?? email
-                user.id = authUser.id.uuidString  // Convert UUID to String for user id
-                // Store login locally so user stays logged in
-                UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                user.id = authUser.id
                 isAuthenticated = true
                 navigateToProfile = true
             } catch {

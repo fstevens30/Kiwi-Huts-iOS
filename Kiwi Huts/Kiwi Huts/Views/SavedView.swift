@@ -39,6 +39,11 @@ struct SavedView: View {
             }
             .navigationTitle("Saved")
         }
+        .onAppear {
+            Task {
+                await user.getSavedHuts()
+            }
+        }
     }
 }
 
