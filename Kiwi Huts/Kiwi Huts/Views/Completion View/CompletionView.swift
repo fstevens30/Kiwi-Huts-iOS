@@ -11,9 +11,10 @@ struct CompletionView: View {
     @EnvironmentObject var viewModel: HutsViewModel
     @EnvironmentObject var user: User
     
+    
     // Group huts by region
     var hutsByRegion: [String: [Hut]] {
-        Dictionary(grouping: viewModel.hutsList, by: { $0.region })
+        Dictionary(grouping: user.completedHuts, by: { $0.region })
     }
     
     // Calculate progress for each region

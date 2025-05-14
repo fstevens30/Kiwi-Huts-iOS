@@ -1,9 +1,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var viewModel: HutsViewModel
     @EnvironmentObject var user: User
-    
-    
     
     var body: some View {
         NavigationView {
@@ -23,13 +22,14 @@ struct ProfileView: View {
                 Spacer()
                 
                 List {
-                    NavigationLink(destination: CompletionView()) {
+                    NavigationLink(destination: CompletionView().environmentObject(viewModel).environmentObject(user)
+                    ) {
                         HStack {
                             Image(systemName: "checkmark.circle.fill")
                             Text("Completed Huts")
                         }
                     }
-                    NavigationLink(destination: SavedView()){
+                    NavigationLink(destination: SavedView().environmentObject(viewModel).environmentObject(user)){
                         HStack {
                             Image(systemName: "star.circle.fill")
                             Text("Saved Huts")

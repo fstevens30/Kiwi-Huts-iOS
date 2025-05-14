@@ -56,7 +56,7 @@ struct HutView: View {
                 Spacer()
                 
                 
-                MapCard(hut: hut)
+                MapCard(hut: hut).environmentObject(user)
                 
             }
         }

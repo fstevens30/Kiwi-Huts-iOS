@@ -55,8 +55,10 @@ struct Kiwi_HutsApp: App {
                     MainTabView()
                         .environmentObject(user)
                         .environmentObject(viewModel)
+                        .tint(Color(user.accentColor.assetName))
                 } else {
                     AuthView(isAuthenticated: $isAuthenticated)
+                        .tint(.accentColorOrange)
                 }
             }
         }

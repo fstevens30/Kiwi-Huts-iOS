@@ -30,7 +30,7 @@ struct SavedView: View {
                 } else {
                     VStack {
                         List(user.savedHuts) { hut in
-                            NavigationLink(destination: HutView(hut: hut)) {
+                            NavigationLink(destination: HutView(hut: hut).environmentObject(user)) {
                                 ListedHutView(hut: hut, showToast: $showToast, toastMessage: $toastMessage)
                             }
                         }

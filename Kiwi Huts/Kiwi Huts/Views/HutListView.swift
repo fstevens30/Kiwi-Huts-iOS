@@ -46,7 +46,7 @@ struct HutListView: View {
 
                     List {
                         ForEach(searchResults, id: \.id) { hut in
-                            NavigationLink(destination: HutView(hut: hut)) {
+                            NavigationLink(destination: HutView(hut: hut).environmentObject(user)) {
                                 ListedHutView(hut: hut, showToast: $showToast, toastMessage: $toastMessage)
                             }
                         }

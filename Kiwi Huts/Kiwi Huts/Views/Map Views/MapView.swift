@@ -132,6 +132,7 @@ struct MapView: View {
                     destination: selectedHut.map {
                         HutView(hut: $0)
                             .onDisappear { selectedHut = nil } // Reset selectedHut when leaving HutView
+                            .environmentObject(user)
                     },
                     isActive: .constant(selectedHut != nil),
                     label: { EmptyView() }

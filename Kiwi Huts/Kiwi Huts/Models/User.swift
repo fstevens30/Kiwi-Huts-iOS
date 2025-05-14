@@ -80,11 +80,11 @@ class User: ObservableObject {
     // Supabase client
     var client = SupabaseManager.shared.client
     
-    // MARK: - Username
     struct Profile: Decodable {
         let username: String
     }
-
+    
+    @MainActor
     func getUsername() async {
         do {
             let response = try await client
@@ -93,7 +93,7 @@ class User: ObservableObject {
                 .eq("id", value: self.id)
                 .single()
                 .execute()
-
+            
             let raw = response.data
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -104,6 +104,43 @@ class User: ObservableObject {
             print("Error getting username: \(error)")
         }
     }
+    
+    func getCompletedHuts() async {
+        do {
+            let response = try await client
+                .from("profiles")
+                .select("completedHuts")
+                .eq("id", value: self.id)
+                .execute()
+            
+            let raw = response.data
+            let decoder = JSONDecoder()
+            let data = try decoder.decode([Hut].self, from: raw)
+            self.completedHuts = data
+            
+        } catch {
+            print("Error getting completed huts: \(error)")
+        }
+    }
+    
+    func getSavedHuts() async {
+        do {
+            let response = try await client
+                .from("profiles")
+                .select("savedHuts")
+                .eq("id", value: self.id)
+                .execute()
+            
+            let raw = response.data
+            let decoder = JSONDecoder()
+            let data = try decoder.decode([Hut].self, from: raw)
+            self.completedHuts = data
+        } catch {
+            print("Error getting saved huts: \(error)")
+        }
+    }
+    
+    
     
     //PLACEHOLDER
     func saveData() {
