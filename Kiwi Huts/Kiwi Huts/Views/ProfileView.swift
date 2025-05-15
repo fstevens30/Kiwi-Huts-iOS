@@ -9,13 +9,21 @@ struct ProfileView: View {
             VStack {
                 VStack {
                     VStack {
-                        Text(user.username ?? "Username")
-                            .font(.headline)
+                        Text(user.email ?? "Email unavailable.")
                     }
                     Divider()
                     HStack {
+                        Spacer()
                         Image(systemName: "house.fill")
                         Text("\(user.completedHuts.count)")
+                        Spacer()
+                        Image(systemName: "list.number")
+                        if user.leaderboardRank != nil {
+                            Text("\(user.leaderboardRank!)")
+                        } else {
+                            Text("N/A")
+                        }
+                        Spacer()
                     }
                 }
                 
@@ -37,11 +45,16 @@ struct ProfileView: View {
                     }
                 }
                 
+                LeaderboardListView(user: _user)
+                
                 Spacer()
             }
-            .navigationTitle("Profile")
+            .navigationTitle(user.username ??  "Profile")
             .task {
                 await user.getUsername()
+                await user.getEmail()
+                await user.getCompletedHuts()
+                await user.getSavedHuts()
             }
         }
     }

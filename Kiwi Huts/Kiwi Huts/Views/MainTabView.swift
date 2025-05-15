@@ -42,6 +42,7 @@ struct MainTabView: View {
                 }
                 .tag(3)
                 .environmentObject(viewModel)
+                .environmentObject(user)
             
             SettingsView(isAuthenticated: $isAuthenticated)
                 .tabItem {
@@ -59,13 +60,12 @@ struct MainTabView: View {
         .onChange(of: selectedTab) { _ in
             saveTab()
         }
-        /*
-        .alert("Limited Functionality", isPresented: .constant(!networkMonitor.isConnected)) {
-            Button("OK", role: .cancel) { }
-        } message: {
-            Text("You are not connected to the internet. Some functionality will be limited.")
+        .onAppear {
+            Task {
+                await user.getAccentColor()
+            }
         }
-         */
+         
     }
 
     private func saveTab() {

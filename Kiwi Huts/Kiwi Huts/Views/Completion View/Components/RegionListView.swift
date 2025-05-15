@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RegionListView: View {
+    @EnvironmentObject var user: User
     @State private var showToast = false
     @State private var toastMessage = ""
     

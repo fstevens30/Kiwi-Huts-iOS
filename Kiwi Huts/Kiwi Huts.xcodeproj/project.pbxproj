@@ -35,6 +35,7 @@
 		3A6648792C0E95E400FA0F23 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6648782C0E95E400FA0F23 /* Toast.swift */; };
 		3A9091F72D0BADBC00670D4D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9091F62D0BADBC00670D4D /* SettingsView.swift */; };
 		3A9091F92D0C34D700670D4D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9091F82D0C34D700670D4D /* ProfileView.swift */; };
+		3A9716BD2DD5C36100441FD1 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9716BC2DD5C35600441FD1 /* LeaderboardView.swift */; };
 		3AAEB8412BDEEC5800745191 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAEB8402BDEEC5800745191 /* CircularProgressView.swift */; };
 		3AAEB8432BDEED4B00745191 /* RegionProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAEB8422BDEED4B00745191 /* RegionProgressView.swift */; };
 		3AC8AB0B2BB5461500D6FE3D /* HutInfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC8AB0A2BB5461500D6FE3D /* HutInfoCard.swift */; };
@@ -90,6 +91,7 @@
 		3A6648852C11358600FA0F23 /* Kiwi-Huts-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Kiwi-Huts-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3A9091F62D0BADBC00670D4D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3A9091F82D0C34D700670D4D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		3A9716BC2DD5C35600441FD1 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		3AAEB8402BDEEC5800745191 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		3AAEB8422BDEED4B00745191 /* RegionProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionProgressView.swift; sourceTree = "<group>"; };
 		3AC8AB0A2BB5461500D6FE3D /* HutInfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HutInfoCard.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		3A385C0A2B991C91005036A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3A9716BC2DD5C35600441FD1 /* LeaderboardView.swift */,
 				3AAEB83E2BDEEC0C00745191 /* Completion View */,
 				3AAEB83C2BDEEB7900745191 /* Hut View */,
 				3A078A072BA7F6F1009B317D /* Global Components */,
@@ -395,6 +398,7 @@
 				3A1C9A102B97DCE000C49BFF /* HutView.swift in Sources */,
 				3A385C092B991C0A005036A5 /* MainTabView.swift in Sources */,
 				3A512C792CF7A4EA0085FF38 /* AppIconProvider.swift in Sources */,
+				3A9716BD2DD5C36100441FD1 /* LeaderboardView.swift in Sources */,
 				3A1C99F82B97D00700C49BFF /* Kiwi_HutsApp.swift in Sources */,
 				3A512C8D2D07E8BC0085FF38 /* CustomClusterAnnotationView.swift in Sources */,
 				3A512C8B2D07E3980085FF38 /* HutAnnotation.swift in Sources */,

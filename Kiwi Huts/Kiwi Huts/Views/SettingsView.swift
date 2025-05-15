@@ -23,8 +23,10 @@ struct SettingsView: View {
                         Spacer()
                         Picker("", selection: $user.accentColor) {
                             ForEach(AccentColor.allCases, id: \.self) { color in
-                                Text(color.rawValue.capitalized)
-                                    .tag(color)
+                                HStack {
+                                    Text(color.rawValue.capitalized)
+                                        .tag(color)
+                                }
                             }
                         }
                         .pickerStyle(MenuPickerStyle())

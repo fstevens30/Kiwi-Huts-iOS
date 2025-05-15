@@ -17,11 +17,13 @@ struct AboutView: View {
         }
         return "Unknown"
     }
-
+    
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
+        NavigationView {
+            VStack {
+                Spacer()
+                
                 VStack {
                     AppVersionInformationView(
                         versionString: AppVersionProvider.appVersion(),
@@ -54,12 +56,15 @@ struct AboutView: View {
                 }
                 .padding()
                 
+                Spacer()
                 
             }
             .statusBarHidden(false)
             .navigationTitle("About")
         }
+      
     }
+    
 }
 
 #Preview {

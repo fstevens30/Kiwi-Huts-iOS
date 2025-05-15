@@ -14,31 +14,31 @@ struct SavedView: View {
     @EnvironmentObject var user: User
 
     var body: some View {
-        NavigationView {
-            VStack {
-                
-                if user.savedHuts.isEmpty {
-                    VStack {
-                        Text("No huts are saved!")
-                            .padding()
-                        Text("Use the")
-                        Text(Image(systemName: "star.circle"))
-                            .font(.title)
-                            .foregroundStyle(Color(user.accentColor.assetName))
-                        Text("button to save huts here.")
-                    }
-                } else {
-                    VStack {
-                        List(user.savedHuts) { hut in
-                            NavigationLink(destination: HutView(hut: hut).environmentObject(user)) {
-                                ListedHutView(hut: hut, showToast: $showToast, toastMessage: $toastMessage)
-                            }
+        VStack {
+            
+            if user.savedHuts.isEmpty {
+                VStack {
+                    Text("No huts are saved!")
+                        .padding()
+                    Text("Use the")
+                    Text(Image(systemName: "star.circle"))
+                        .font(.title)
+                        .foregroundStyle(Color(user.accentColor.assetName))
+                    Text("button to save huts here.")
+                }
+            } else {
+                VStack {
+                    List(user.savedHuts) { hut in
+                        NavigationLink(destination: HutView(hut: hut).environmentObject(user)) {
+                            ListedHutView(hut: hut, showToast: $showToast, toastMessage: $toastMessage)
                         }
                     }
                 }
             }
-            .navigationTitle("Saved")
+            
         }
+        .navigationTitle("Saved")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Task {
                 await user.getSavedHuts()

@@ -56,12 +56,11 @@ struct Kiwi_HutsApp: App {
                     MainTabView(isAuthenticated: $isAuthenticated)
                         .environmentObject(user)
                         .environmentObject(viewModel)
-                        .tint(Color(user.accentColor.assetName))
                 } else {
                     AuthView(isAuthenticated: $isAuthenticated)
-                        .tint(.accentColorOrange)
                 }
             }
+            .tint(Color(user.accentColor.assetName))
             .onAppear {
                 Task {
                     await checkLoginStatus()

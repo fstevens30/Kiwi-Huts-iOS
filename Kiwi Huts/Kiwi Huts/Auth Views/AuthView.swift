@@ -45,6 +45,7 @@ struct AuthView: View {
             .padding()
             Spacer()
         }
+        .navigationTitle("Welcome")
     }
 }
 

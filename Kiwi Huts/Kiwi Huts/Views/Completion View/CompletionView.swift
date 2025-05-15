@@ -37,9 +37,9 @@ struct CompletionView: View {
     }
     
     var body: some View {
-        NavigationView {
+        VStack {
             ScrollView {
-                NavigationLink(destination: RegionListView(huts: user.completedHuts, region: "All Huts")) {
+                NavigationLink(destination: RegionListView(huts: user.completedHuts, region: "All Huts").environmentObject(user)) {
                     CircularProgressView(hutCount: Double(user.completedHuts.count), totalHuts: Double(viewModel.hutsList.count))
                         .frame(width: 200, height: 200)
                         .padding()
@@ -57,7 +57,7 @@ struct CompletionView: View {
                 
                 // Create a regionProgressView for each region
                 ForEach(sortedRegions, id: \.self) { region in
-                    NavigationLink(destination: RegionListView(huts: viewModel.hutsList.filter { hut in hut.region == region && user.completedHuts.contains(where: { $0.id == hut.id }) }, region: region)) {
+                    NavigationLink(destination: RegionListView(huts: viewModel.hutsList.filter { hut in hut.region == region && user.completedHuts.contains(where: { $0.id == hut.id }) }, region: region).environmentObject(user)) {
                         VStack {
                             HStack {
                                 Text(region)
@@ -76,6 +76,7 @@ struct CompletionView: View {
                 }
             }
             .navigationTitle("Completion")
+            .navigationBarTitleDisplayMode(.inline)
             .tint(Color(user.accentColor.assetName))
         }
         .onAppear {

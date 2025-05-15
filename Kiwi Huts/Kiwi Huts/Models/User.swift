@@ -65,12 +65,24 @@ class User: ObservableObject {
     @Published var mapType: MapType
     @Published var email: String?
     @Published var username: String?
+    @Published var leaderboardRank: Int?
+    @Published var leaderboardEntries: [LeaderboardEntry] = []
+
+    struct LeaderboardEntry: Decodable, Identifiable {
+        var id: UUID { UUID() }
+        let username: String
+        let unique_hut_count: Int
+    }
     
     init(id: String? = nil, completedHuts: [Hut] = [],
          savedHuts: [Hut] = [],
          accentColor: AccentColor = .orange,
          mapType: MapType = .standard) {
-        self.id = UUID()
+        if let id = id {
+            self.id = UUID(uuidString: id)
+        } else {
+            self.id = UUID()
+        }
         self.completedHuts = completedHuts
         self.savedHuts = savedHuts
         self.accentColor = accentColor
@@ -79,10 +91,6 @@ class User: ObservableObject {
     
     // Supabase client
     var client = SupabaseManager.shared.client
-    
-    struct Profile: Decodable {
-        let username: String
-    }
     
     @MainActor
     func getUsername() async {
@@ -96,12 +104,30 @@ class User: ObservableObject {
             
             let raw = response.data
             let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let data = try decoder.decode(Profile.self, from: raw)
-            self.username = data.username
+            let data = try decoder.decode([String: String].self, from: raw)
+            self.username = data["username"]
             
         } catch {
             print("Error getting username: \(error)")
+        }
+    }
+    
+    @MainActor
+    func getEmail() async {
+        do {
+            let response = try await client
+                .from("profiles")
+                .select("email")
+                .eq("id", value: self.id)
+                .single()
+                .execute()
+            
+            let raw = response.data
+            let decoder = JSONDecoder()
+            let data = try decoder.decode([String: String].self, from: raw)
+            self.email = data["email"]
+        } catch {
+            print("Error getting email: \(error)")
         }
     }
     
@@ -176,6 +202,27 @@ class User: ObservableObject {
         }
     }
     
+    @MainActor
+    func getAccentColor() async {
+        do {
+            let response = try await client
+                .from("profiles")
+                .select("accentColor")
+                .eq("id", value: self.id!)
+                .single()
+                .execute()
+
+            let raw = response.data
+            let decoder = JSONDecoder()
+            let decoded = try decoder.decode([String: AccentColor].self, from: raw)
+            if let color = decoded["accentColor"] {
+                self.accentColor = color
+            }
+
+        } catch {
+            print("Error getting accent color: \(error)")
+        }
+    }
     
     func updateAccentColor() async {
         do {
@@ -190,6 +237,34 @@ class User: ObservableObject {
         } catch {
             print("Error updating accent color: \(error)")
         }
-        
+    }
+    
+    @MainActor
+    func getLeaderboardPosition() async {
+        do {
+            let response = try await client
+                .from("leaderboard")
+                .select("*")
+                .order("unique_hut_count", ascending: false)
+                .execute()
+
+            let raw = response.data
+            let decoder = JSONDecoder()
+            let entries = try decoder.decode([LeaderboardEntry].self, from: raw)
+
+            self.leaderboardEntries = entries
+
+            // Set rank
+            if let username = self.username,
+               let rank = entries.firstIndex(where: { $0.username == username }) {
+                self.leaderboardRank = rank + 1
+            } else {
+                self.leaderboardRank = nil
+                print("User not found in leaderboard.")
+            }
+
+        } catch {
+            print("Error getting leaderboard: \(error)")
+        }
     }
 }
