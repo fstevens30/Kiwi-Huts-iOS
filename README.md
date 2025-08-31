@@ -1,4 +1,6 @@
-# Kiwi Huts
+# Kiwi Huts iOS
+
+**Deprecated for Web version of Kiwi Huts**
 
 Kiwi Huts is designed to help you explore the many great back country huts available in New Zealand.
 
